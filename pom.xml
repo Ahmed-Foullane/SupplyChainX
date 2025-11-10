@@ -118,6 +118,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>SupplyChainX</finalName>
     </build>
 
 </project>
