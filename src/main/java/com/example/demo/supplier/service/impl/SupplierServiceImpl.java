@@ -24,15 +24,13 @@ public class SupplierServiceImpl implements ISupplierService {
     @Override
     public List<SupplierDTOResponse> getAllSuplliers() {
         List<Supplier> suppliers = supplierRepository.findAll();
-        List<SupplierDTOResponse> supplierDTOResponses = suppliers.stream().map(supplierMapper::toResponseDTO).toList();
-        return supplierDTOResponses;
+        return suppliers.stream().map(supplierMapper::toResponseDTO).toList();
     }
 
     @Override
     public SupplierDTOResponse getSupplierById(Long id) {
         Supplier supplier = supplierRepository.findById(id).orElseThrow(() -> new RuntimeException("supplier id not found: " + id));
-        SupplierDTOResponse supplierDTOResponse = supplierMapper.toResponseDTO(supplier);
-        return supplierDTOResponse;
+        return supplierMapper.toResponseDTO(supplier);
     }
 
     @Override
@@ -50,8 +48,7 @@ public class SupplierServiceImpl implements ISupplierService {
         supplier.setLeadTime(supplierDTO.getLeadTime());
         supplier.setRating(supplierDTO.getRating());
         Supplier supplier1 = supplierRepository.save(supplier);
-        SupplierDTO supplierDTOResponse = supplierMapper.toDTO(supplier1);
-        return supplierDTOResponse;
+        return supplierMapper.toDTO(supplier1);
     }
 
     @Override
@@ -74,7 +71,6 @@ public class SupplierServiceImpl implements ISupplierService {
         if (supplier == null) {
             throw new RuntimeException("Supplier with first name '" + firstName + "' and last name '" + lastName + "' not found");
         }
-        SupplierDTOResponse supplierDTOResponse = supplierMapper.toResponseDTO(supplier);
-        return supplierDTOResponse;
+        return supplierMapper.toResponseDTO(supplier);
     }
 }

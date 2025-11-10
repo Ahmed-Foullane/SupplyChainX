@@ -12,4 +12,6 @@ public interface ISupplierMapper {
     Supplier toEntity(SupplierDTO supplierDTO);
     SupplierDTOResponse toResponseDTO(Supplier supplier);
     SupplierDTOResponseWithoutList toResponseDTOWithoutList(Supplier supplier);
+
+
 }
