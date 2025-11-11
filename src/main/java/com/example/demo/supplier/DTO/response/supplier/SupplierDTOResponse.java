@@ -16,4 +16,6 @@ public class SupplierDTOResponse {
     private Double rating;
     private Integer leadTime;
     private List<RawMaterialDTOResponseWithoutList> rawMaterials;
+
+
 }

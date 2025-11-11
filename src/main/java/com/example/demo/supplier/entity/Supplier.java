@@ -32,4 +32,7 @@ public class Supplier {
             inverseJoinColumns = @JoinColumn(name = "raw_material_id")
     )
     private List<RawMaterial> rawMaterials = new ArrayList<>();
+
+    public void setId(Long id) {
+    }
 }

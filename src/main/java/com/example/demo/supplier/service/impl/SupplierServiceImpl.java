@@ -18,8 +18,8 @@ import java.util.List;
 @Service
 public class SupplierServiceImpl implements ISupplierService {
 
-    private final ISupplierRepository supplierRepository;
-    private final ISupplierMapper supplierMapper;
+        private final ISupplierRepository supplierRepository;
+        private final ISupplierMapper supplierMapper;
 
     @Override
     public List<SupplierDTOResponse> getAllSuplliers() {
