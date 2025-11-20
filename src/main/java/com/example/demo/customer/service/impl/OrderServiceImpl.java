@@ -15,6 +15,7 @@ import com.example.demo.customer.repository.OrderRepository;
 import com.example.demo.customer.service.IOrderService;
 import com.example.demo.production.entity.Product;
 import com.example.demo.production.repository.IProductRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Service
+@Transactional
 public class OrderServiceImpl implements IOrderService {
 
     private final OrderRepository orderRepository;
@@ -48,7 +50,7 @@ public class OrderServiceImpl implements IOrderService {
         delivery.setVehicle("car");
         delivery.setDriver("driver");
         delivery.setCost(product.getCost()*dto.quantity());
-        delivery.setDeliveryStatus(DeliveryStatus.EN_COURS);
+        delivery.setDeliveryStatus(DeliveryStatus.PLANIFIEE);
         delivery.setDeliveryDate(LocalDateTime.now().plusDays(5));
         deliveryRepository.save(delivery);
         order.setCustomer(customer);

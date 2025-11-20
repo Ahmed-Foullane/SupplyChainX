@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,18 +27,21 @@ public class SupplierController {
     private final RestTemplateBuilder restTemplateBuilder;
 
     @GetMapping
+    @PreAuthorize("hasRole('SUPERVISEUR_LOGISTIQUE')")
     public ResponseEntity<List<SupplierDTOResponse>> getAll(){
         List<SupplierDTOResponse> suppliers = supplierService.getAllSuplliers();
         return ResponseEntity.ok(suppliers);
     }
 
     @GetMapping("/id/{id}")
+    @PreAuthorize("hasRole('SUPERVISEUR_LOGISTIQUE')")
     public ResponseEntity<?> getById(@PathVariable("id") Long id){
         SupplierDTOResponse supplierDTOResponse = supplierService.getSupplierById(id);
         return ResponseEntity.ok(supplierDTOResponse);
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('GESTIONNAIRE_APPROVISIONNEMENT')")
     public ResponseEntity<?> create(@Valid @RequestBody SupplierDTO supplierDTO, BindingResult result){
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(Validation.getValidationErrors(result));
@@ -46,6 +50,7 @@ public class SupplierController {
     }
 
     @PutMapping("/update/id/{id}")
+    @PreAuthorize("hasRole('GESTIONNAIRE_APPROVISIONNEMENT')")
     public ResponseEntity<?> update(@Valid @PathVariable("id") Long id, @RequestBody SupplierDTO supplierDTO, BindingResult result){
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(Validation.getValidationErrors(result));
@@ -55,12 +60,14 @@ public class SupplierController {
     }
 
     @DeleteMapping("/delete/id/{id}")
+    @PreAuthorize("hasRole('GESTIONNAIRE_APPROVISIONNEMENT')")
     public ResponseEntity<ResponseMessage> delete(@PathVariable("id") Long id){
         ResponseMessage message = supplierService.deleteSupplier(id);
         return ResponseEntity.ok(message);
     }
 
     @GetMapping("/search/{firstName}/{lastName}")
+    @PreAuthorize("hasRole('RESPONSABLE_ACHATS')")
     public ResponseEntity<?> searchSupplierByName(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName){
         SupplierDTOResponse supplier = supplierService.searchSupplierByFirstNameAndLastName(firstName, lastName);
         return ResponseEntity.ok(supplier);

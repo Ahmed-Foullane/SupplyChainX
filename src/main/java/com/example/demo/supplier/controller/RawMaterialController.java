@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,7 @@ public class RawMaterialController {
     private final IRawMaterialService rawMaterialService;
 
     @PostMapping(path = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('GESTIONNAIRE_APPROVISIONNEMENT')")
     public ResponseEntity<?> create(@Valid @RequestBody RawMaterialDTO rawMaterialDTO, BindingResult result){
         if (result.hasErrors()){
             return ResponseEntity.badRequest().body(Validation.getValidationErrors(result));
@@ -32,16 +34,19 @@ public class RawMaterialController {
     }
 
     @GetMapping("/id/{id}")
+    @PreAuthorize("hasRole('SUPERVISEUR_LOGISTIQUE')")
     public ResponseEntity<?> getById(@PathVariable("id") Long id){
         return ResponseEntity.ok(rawMaterialService.getById(id));
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('SUPERVISEUR_LOGISTIQUE')")
     public ResponseEntity<List<RawMaterialDTOResponse>> getAll(){
         return ResponseEntity.ok(rawMaterialService.getAll());
     }
 
     @PutMapping("/update/{id}")
+    @PreAuthorize("hasRole('GESTIONNAIRE_APPROVISIONNEMENT')")
     public ResponseEntity<?> update(@Valid @PathVariable("id") Long id, @RequestBody  RawMaterialDTO rawMaterialDTO, BindingResult result ){
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(Validation.getValidationErrors(result));
@@ -50,17 +55,20 @@ public class RawMaterialController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('GESTIONNAIRE_APPROVISIONNEMENT')")
     public ResponseEntity<ResponseMessage> delete(@PathVariable("id") Long id){
         return ResponseEntity.ok(rawMaterialService.delete(id));
     }
 
     @GetMapping("/filter/stock/less/{stock}")
+    @PreAuthorize("hasRole('SUPERVISEUR_LOGISTIQUE')")
     public ResponseEntity<List<RawMaterialDTOResponse>> filterByStockLessThenOrEqual(@PathVariable("stock") Integer stock){
         List<RawMaterialDTOResponse> rawMaterialDTOResponses = rawMaterialService.getByLessThenOrEqualStock(stock);
         return ResponseEntity.ok(rawMaterialDTOResponses);
     }
 
     @GetMapping("/filter/stock/greater/{stock}")
+    @PreAuthorize("hasRole('SUPERVISEUR_LOGISTIQUE')")
     public ResponseEntity<List<RawMaterialDTOResponse>> filterByStockGreaterThenOrEqual(@PathVariable("stock") Integer stock){
         List<RawMaterialDTOResponse> rawMaterialDTOResponses = rawMaterialService.getByGreaterThenOrEqualStock(stock);
         return ResponseEntity.ok(rawMaterialDTOResponses);

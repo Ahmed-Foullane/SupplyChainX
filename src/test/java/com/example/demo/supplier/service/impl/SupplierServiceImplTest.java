@@ -20,6 +20,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 @ExtendWith(MockitoExtension.class)
 class SupplierServiceImplTest {
 
@@ -36,13 +38,13 @@ class SupplierServiceImplTest {
     void createSupplier() {
         SupplierDTO supplierDTO = new SupplierDTO();
         supplierDTO.setContact("8213738");
-        supplierDTO.setLastName("tima");
+        supplierDTO.setLastName("foullane");
         supplierDTO.setLeadTime(2);
         supplierDTO.setRating(7.1);
 
         Supplier supplier = new Supplier();
         supplier.setContact("8213738");
-        supplier.setLastName("tima");
+        supplier.setLastName("foullane");
         supplier.setLeadTime(2);
         supplier.setRating(7.1);
 
@@ -51,7 +53,7 @@ class SupplierServiceImplTest {
 
         Supplier createdSupplier = supplierService.createSupplier(supplierDTO);
 
-        Assertions.assertNotNull(createdSupplier);
+        assertNotNull(createdSupplier);
         Assertions.assertEquals(supplierDTO.getRating(), createdSupplier.getRating());
         Mockito.verify(supplierMapper).toEntity(supplierDTO);
         Mockito.verify(supplierRepository).save(supplier);
@@ -91,7 +93,7 @@ class SupplierServiceImplTest {
 
         SupplierDTO result = supplierService.updateSupplier(supplierDTO, id);
 
-        Assertions.assertNotNull(result);
+        assertNotNull(result);
         Assertions.assertEquals("Ahmed", result.getFirstName());
         Assertions.assertEquals("Foullane", result.getLastName());
         Mockito.verify(supplierRepository).findById(id);
@@ -147,7 +149,7 @@ class SupplierServiceImplTest {
 
         SupplierDTOResponse result = supplierService.searchSupplierByFirstNameAndLastName("Ahmed", "Foullane");
 
-        Assertions.assertNotNull(result);
+        assertNotNull(result);
         Assertions.assertEquals("Ahmed", result.getFirstName());
         Assertions.assertEquals("Foullane", result.getLastName());
     }
@@ -174,7 +176,7 @@ class SupplierServiceImplTest {
 
         SupplierDTOResponse result = supplierService.getSupplierById(id);
 
-        Assertions.assertNotNull(result);
+        assertNotNull(result);
         Assertions.assertEquals("ahmed", result.getFirstName());
     }
 

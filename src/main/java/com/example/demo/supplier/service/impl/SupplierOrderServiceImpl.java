@@ -61,6 +61,7 @@ public class SupplierOrderServiceImpl implements ISupplierOrderService {
             RawMaterial material = rawMaterialRepository.findById(materialId)
                     .orElseThrow(() -> new RuntimeException("Raw Material ID not found: " + materialId));
             RawMaterialSupplyOrder lineItem = new RawMaterialSupplyOrder();
+            material.setStock(material.getStock() + quantity);
             lineItem.setRawMaterial(material);
             lineItem.setQuantity(quantity);
             supplyOrder.addRawMaterialSupplyOrder(lineItem);
