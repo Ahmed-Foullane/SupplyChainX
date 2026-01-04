@@ -1,30 +1,32 @@
 package com.example.demo.auth;
 
-import lombok.RequiredArgsConstructor;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/auth")
-@RequiredArgsConstructor
+@RequestMapping("/api/v1")
+@Tag(name = "keycloak")
+
 public class AuthController {
 
-    private final AuthService authService;
-
-    @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(
-            @RequestBody AuthRequest request
-    ) {
-        return ResponseEntity.ok(authService.authenticate(request));
+    @GetMapping
+    public ResponseEntity<String> hello() {
+        return ResponseEntity.ok("Hello!");
     }
 
-    @PostMapping("/refresh")
-    public ResponseEntity<AuthResponse> refresh(
-            @RequestBody TokenRefreshRequest request
-    ) {
-        return ResponseEntity.ok(authService.refreshToken(request));
+    @GetMapping("/user")
+    @PreAuthorize("hasRole('role_user')")
+    public ResponseEntity<String> helloUser() {
+        return ResponseEntity.ok("Hello From User!");
+    }
+
+    @GetMapping("/admin")
+    @PreAuthorize("hasRole('role_admin')")
+    public ResponseEntity<String> helloAdmin() {
+        return ResponseEntity.ok("Hello From Admin!");
     }
 }

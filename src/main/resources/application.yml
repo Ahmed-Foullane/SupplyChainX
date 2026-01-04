@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: demo1
+
+  # --- Security ---
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9090/realms/supplychainX-realm
+          jwk-set-uri: http://localhost:9090/realms/supplychainX-realm/protocol/openid-connect/certs
+
+  # --- Datasource ---
+  datasource:
+    url: jdbc:mysql://localhost:3306/SupplyChainX2
+    username: myuser
+    password: myuserpassword
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # --- JPA / Hibernate ---
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+
+# --- Server Port ---
+server:
+  port: 7070
+
+# --- Custom JWT Converter properties (read manually in your bean) ---
+jwt:
+  auth:
+    converter:
+      resource-id: demo
+      principle-attribute: preferred_username
+
+
+# --- Logging ---
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
