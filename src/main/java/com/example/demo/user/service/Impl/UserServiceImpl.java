@@ -33,8 +33,9 @@ public class UserServiceImpl implements IUserService {
         return userRepository.save(user);
     }
 
-    @Override
-    public AppUser searchUserByEmail(String email) {
-        return userRepository.findUserByEmailContainingIgnoreCase(email);
-    }
+        @Override
+        public AppUser searchUserByEmail(String email) {
+            return userRepository.findUserByEmailContainingIgnoreCase(email)
+                    .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
+        }
 }
